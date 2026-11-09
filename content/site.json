@@ -17,10 +17,26 @@
     "email": ""
   },
   "stats": [
-    { "value": "5", "unit": "years", "label": "shipping Swift, SwiftUI and UIKit" },
-    { "value": "22", "unit": "clinics", "label": "in Texas ran the therapy apps I worked on" },
-    { "value": "~13", "unit": "months", "label": "from first commit to the App Store, as sole iOS engineer" },
-    { "value": "940+", "unit": "tests", "label": "an agent has to pass before it may stop working" }
+    {
+      "value": "5",
+      "unit": "years",
+      "label": "shipping Swift, SwiftUI and UIKit"
+    },
+    {
+      "value": "22",
+      "unit": "clinics",
+      "label": "in Texas ran the therapy apps I worked on"
+    },
+    {
+      "value": "~13",
+      "unit": "months",
+      "label": "from first commit to the App Store, as sole iOS engineer"
+    },
+    {
+      "value": "940+",
+      "unit": "tests",
+      "label": "an agent has to pass before it may stop working"
+    }
   ],
   "amv": {
     "company": "Academy Medtech Ventures",
@@ -42,7 +58,16 @@
           "Wrote the shared Swift package both company apps depend on (networking, auth, models, theming, components), and a networking layer that cut API boilerplate by roughly 80%.",
           "Moved the codebase to MVVM with coordinators and dependency injection, then through the Swift 6 strict-concurrency migration."
         ],
-        "facts": ["~49K lines of Swift", "1,000+ commits, one author", "UIKit + SwiftUI", "Swift 6", "SwiftData", "WidgetKit", "Unity / MediaPipe", "Sentry"]
+        "facts": [
+          "~49K lines of Swift",
+          "1,000+ commits, one author",
+          "UIKit + SwiftUI",
+          "Swift 6",
+          "SwiftData",
+          "WidgetKit",
+          "Unity / MediaPipe",
+          "Sentry"
+        ]
       },
       {
         "id": "cogpt",
@@ -58,7 +83,14 @@
           "Built cognitive task screens, the prescription flow, dual-tasking (an exercise and a cognitive task at once, with heart rate from a Bluetooth sensor) and clinician charts.",
           "Also worked on the Firebase backend: security rules, clinic-access claims and Cloud Functions."
         ],
-        "facts": ["~120K lines of Swift across both apps", "1,500+ commits", "UIKit + SwiftUI", "Firebase", "Bluetooth LE", "XCTest / XCUITest"]
+        "facts": [
+          "~120K lines of Swift across both apps",
+          "1,500+ commits",
+          "UIKit + SwiftUI",
+          "Firebase",
+          "Bluetooth LE",
+          "XCTest / XCUITest"
+        ]
       }
     ],
     "also": "I also made UI changes to 94FEETOFGAME, a basketball training app from the same venture group, during 2022. Someone else was its main developer."
@@ -67,27 +99,112 @@
     "title": "Agents merge. Humans release.",
     "intro": "Since May 2026 I have built two apps by directing Claude Code and Cursor instead of typing most of the code myself. What makes that work is the harness around the agent, which I designed and keep tightening.",
     "steps": [
-      { "name": "Rules", "text": "Scoped rule files tell the agent how this codebase works: architecture boundaries, naming, what never to touch." },
-      { "name": "Work", "text": "Each task runs in its own git worktree and simulator, so several agents can work at once without colliding." },
-      { "name": "Gate", "text": "A hook runs the unit tests when the agent tries to stop. Red tests send it back to work. On Silver Screen that is 940+ tests." },
-      { "name": "Proof", "text": "UI changes need simulator screenshots in the pull request. CI runs API, Postgres, XCUITest and Compose UI tests." },
-      { "name": "Review", "text": "Every pull request gets a code review pass before it merges. Agents may merge their own reviewed work." },
-      { "name": "Release", "text": "Only I can tag a release. A guard hook blocks agents from tagging or touching production, and the App Store phased rollout halts itself if the Sentry crash-free rate drops." }
+      {
+        "name": "Rules",
+        "text": "Scoped rule files tell the agent how this codebase works: architecture boundaries, naming, what never to touch."
+      },
+      {
+        "name": "Work",
+        "text": "Each task runs in its own git worktree and simulator, so several agents can work at once without colliding."
+      },
+      {
+        "name": "Gate",
+        "text": "A hook runs the unit tests when the agent tries to stop. Red tests send it back to work. On Silver Screen that is 940+ tests."
+      },
+      {
+        "name": "Proof",
+        "text": "UI changes need simulator screenshots in the pull request. CI runs API, Postgres, XCUITest and Compose UI tests."
+      },
+      {
+        "name": "Review",
+        "text": "Every pull request gets a code review pass before it merges. Agents may merge their own reviewed work."
+      },
+      {
+        "name": "Release",
+        "text": "Only I can tag a release. A guard hook blocks agents from tagging or touching production, and the App Store phased rollout halts itself if the Sentry crash-free rate drops."
+      }
     ],
     "meta": "This site works the same way. A scheduled job watches my app repositories for new release tags, reads what changed, and opens a pull request here only when a build changes something a visitor would care about."
   },
   "skills": [
-    { "group": "Languages", "items": ["Swift", "Kotlin", "TypeScript", "JavaScript", "Objective-C"] },
-    { "group": "Mobile", "items": ["SwiftUI", "UIKit", "Jetpack Compose", "Swift Concurrency", "Combine", "SwiftData", "SQLite", "WidgetKit", "ActivityKit"] },
-    { "group": "Testing & release", "items": ["XCTest", "XCUITest", "Swift Testing", "GitHub Actions", "TestFlight", "Sentry", "Crashlytics"] },
-    { "group": "Backend", "items": ["Node.js / Fastify", "PostgreSQL", "Firebase", "Auth0", "Cloudflare Workers", "OpenTelemetry"] },
-    { "group": "Working with agents", "items": ["Claude Code", "Cursor", "rules and hooks", "CI gates for agent-written code"] }
+    {
+      "group": "Languages",
+      "items": [
+        "Swift",
+        "Kotlin",
+        "TypeScript",
+        "JavaScript",
+        "Objective-C"
+      ]
+    },
+    {
+      "group": "Mobile",
+      "items": [
+        "SwiftUI",
+        "UIKit",
+        "Jetpack Compose",
+        "Swift Concurrency",
+        "Combine",
+        "SwiftData",
+        "SQLite",
+        "WidgetKit",
+        "ActivityKit"
+      ]
+    },
+    {
+      "group": "Testing & release",
+      "items": [
+        "XCTest",
+        "XCUITest",
+        "Swift Testing",
+        "GitHub Actions",
+        "TestFlight",
+        "Sentry",
+        "Crashlytics"
+      ]
+    },
+    {
+      "group": "Backend",
+      "items": [
+        "Node.js / Fastify",
+        "PostgreSQL",
+        "Firebase",
+        "Auth0",
+        "Cloudflare Workers",
+        "OpenTelemetry"
+      ]
+    },
+    {
+      "group": "Working with agents",
+      "items": [
+        "Claude Code",
+        "Cursor",
+        "rules and hooks",
+        "CI gates for agent-written code"
+      ]
+    }
   ],
   "earlier": [
-    { "role": "Web Developer", "org": "Web Services Management", "when": "2021" },
-    { "role": "iOS Contractor", "org": "Spec-Rite Systems", "when": "2020" },
-    { "role": "Web Developer", "org": "305Spin", "when": "2018 – 2019" },
-    { "role": "Systems Engineer", "org": "Verizon", "when": "2016 – 2017" }
+    {
+      "role": "Web Developer",
+      "org": "Web Services Management",
+      "when": "2021"
+    },
+    {
+      "role": "iOS Contractor",
+      "org": "Spec-Rite Systems",
+      "when": "2020"
+    },
+    {
+      "role": "Web Developer",
+      "org": "305Spin",
+      "when": "2018 – 2019"
+    },
+    {
+      "role": "Systems Engineer",
+      "org": "Verizon",
+      "when": "2016 – 2017"
+    }
   ],
   "education": "B.S. Computer Science and Mathematics–Economics, St. Lawrence University, 2016"
 }

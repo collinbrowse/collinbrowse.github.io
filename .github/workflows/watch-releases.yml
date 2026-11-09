@@ -63,6 +63,9 @@ jobs:
           set -euo pipefail
           git config user.name "release-watcher[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # The review step replaces the checkout's git credentials, so set them again before pushing.
+          git config --local --unset-all http.https://github.com/.extraheader || true
+          git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
 
           MEANINGFUL=unknown; NOTE=""; MEDIA=""
           if [ -f .update/verdict.json ]; then
