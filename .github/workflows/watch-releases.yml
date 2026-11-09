@@ -58,6 +58,7 @@ jobs:
         env:
           SUMMARY: ${{ steps.check.outputs.summary }}
           SLUG: ${{ steps.check.outputs.slug }}
+          BASE: ${{ github.ref_name }}
         run: |
           set -euo pipefail
           git config user.name "release-watcher[bot]"
@@ -77,8 +78,8 @@ jobs:
 
           if [ "$MEANINGFUL" = "false" ]; then
             git commit -m "Bump $SUMMARY" -m "Routine build: $NOTE"
-            git push origin HEAD:main
-            gh workflow run deploy.yml --ref main
+            git push origin "HEAD:$BASE"
+            if [ "$BASE" = "main" ]; then gh workflow run deploy.yml --ref main; fi
             exit 0
           fi
 
@@ -97,5 +98,5 @@ jobs:
             head -c 20000 "$RUNNER_TEMP/context.md"
             echo; echo "</details>"
           } > "$RUNNER_TEMP/body.md"
-          gh pr create --base main --head "$BRANCH" --title "Update site for $SUMMARY" --body-file "$RUNNER_TEMP/body.md" \
+          gh pr create --base "$BASE" --head "$BRANCH" --title "Update site for $SUMMARY" --body-file "$RUNNER_TEMP/body.md" \
             || gh pr edit "$BRANCH" --body-file "$RUNNER_TEMP/body.md"
