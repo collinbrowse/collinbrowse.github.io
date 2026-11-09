@@ -15,10 +15,10 @@
     "changelog": "CHANGELOG.md"
   },
   "release": {
-    "tag": "testflight/0.1.1+9",
-    "version": "0.1.1",
-    "build": "9",
-    "date": "2026-11-02",
+    "tag": "testflight/1.0.0+11",
+    "version": "1.0.0",
+    "build": "11",
+    "date": "2026-11-09",
     "notes": [
       "Version 1.0.0, the build submitted for the first App Store release.",
       "New screenshots and a 30-second App Store preview.",
