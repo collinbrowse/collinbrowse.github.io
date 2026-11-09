@@ -1,0 +1,4 @@
+dist/
+.update/
+.DS_Store
+node_modules/

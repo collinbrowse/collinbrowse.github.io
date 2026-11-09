@@ -1,0 +1,88 @@
+{
+  "name": "Collin Browse",
+  "url": "https://collinbrowse.github.io",
+  "location": "Durango, Colorado",
+  "role": "iOS engineer",
+  "headline": "I build iOS apps from the first commit to the App Store.",
+  "subhead": "Five years of Swift, four of them in HIPAA-regulated healthcare. Lately I ship whole products on my own by directing AI coding agents inside test-gated workflows I designed.",
+  "description": "Collin Browse is an iOS engineer in Durango, Colorado. Portfolio: AMV ConnEx, Silver Screen, CrewCue and Cash Flow.",
+  "links": {
+    "github": "https://github.com/collinbrowse",
+    "linkedin": "https://www.linkedin.com/in/collinbrowse",
+    "email": ""
+  },
+  "stats": [
+    { "value": "5", "unit": "years", "label": "shipping Swift, SwiftUI and UIKit" },
+    { "value": "22", "unit": "clinics", "label": "in Texas ran the therapy apps I worked on" },
+    { "value": "~13", "unit": "months", "label": "from first commit to the App Store, as sole iOS engineer" },
+    { "value": "940+", "unit": "tests", "label": "an agent has to pass before it may stop working" }
+  ],
+  "amv": {
+    "company": "Academy Medtech Ventures",
+    "dates": "Dec 2021 – May 2026",
+    "title": "iOS Engineer I → II",
+    "summary": "Four and a half years building physical-therapy software: two cognitive therapy apps used in clinics, then an AI exercise-guidance app I built alone from an empty repository.",
+    "products": [
+      {
+        "id": "connex",
+        "name": "AMV ConnEx",
+        "role": "Sole iOS engineer",
+        "dates": "Jan 2024 – May 2026",
+        "pitch": "A patient app for home exercise programs. The camera watches you move and tells you, in real time, how well you are doing the exercise your clinician prescribed.",
+        "store": "https://apps.apple.com/us/app/amv-connex/id6736367457",
+        "points": [
+          "Took the app from first commit to App Store launch in about 13 months, owning architecture and every release.",
+          "Embedded a Unity computer-vision module (MediaPipe) in a native app for on-device joint tracking: an Objective-C++ bridge loads UnityFramework at runtime, Swift sends it JSON commands, and results come back as movement summaries that upload through a background queue.",
+          "Built HIPAA-compliant clinician–patient messaging with SwiftData offline sync, a home-screen widget for the prescription schedule, session reminders and clinician booking.",
+          "Wrote the shared Swift package both company apps depend on (networking, auth, models, theming, components), and a networking layer that cut API boilerplate by roughly 80%.",
+          "Moved the codebase to MVVM with coordinators and dependency injection, then through the Swift 6 strict-concurrency migration."
+        ],
+        "facts": ["~49K lines of Swift", "1,000+ commits, one author", "UIKit + SwiftUI", "Swift 6", "SwiftData", "WidgetKit", "Unity / MediaPipe", "Sentry"]
+      },
+      {
+        "id": "cogpt",
+        "name": "Cog PT & Cog PT Companion",
+        "role": "One of two iOS engineers",
+        "dates": "Dec 2021 – May 2024",
+        "pitch": "Cognitive therapy for physical-therapy patients. Clinicians run assessments and prescribe training in Cog PT; patients do the work at home in the Companion app.",
+        "store": "https://apps.apple.com/us/app/cog-pt-companion/id1585877729",
+        "points": [
+          "Used in 22 clinics in Texas. Cog PT was distributed privately through Apple Business Manager; the Companion app shipped 10 App Store releases.",
+          "Resolved 20+ production crashes and 45+ bugs. Cog PT then ran 116 consecutive days without a crash, and the Companion went 161 days without a bug report.",
+          "Wrote 70+ automated tests (XCTest and XCUITest) that supported the audit trail for a pre-FDA Software-as-a-Medical-Device submission.",
+          "Built cognitive task screens, the prescription flow, dual-tasking (an exercise and a cognitive task at once, with heart rate from a Bluetooth sensor) and clinician charts.",
+          "Also worked on the Firebase backend: security rules, clinic-access claims and Cloud Functions."
+        ],
+        "facts": ["~120K lines of Swift across both apps", "1,500+ commits", "UIKit + SwiftUI", "Firebase", "Bluetooth LE", "XCTest / XCUITest"]
+      }
+    ],
+    "also": "I also made UI changes to 94FEETOFGAME, a basketball training app from the same venture group, during 2022. Someone else was its main developer."
+  },
+  "process": {
+    "title": "Agents merge. Humans release.",
+    "intro": "Since May 2026 I have built two apps by directing Claude Code and Cursor instead of typing most of the code myself. What makes that work is the harness around the agent, which I designed and keep tightening.",
+    "steps": [
+      { "name": "Rules", "text": "Scoped rule files tell the agent how this codebase works: architecture boundaries, naming, what never to touch." },
+      { "name": "Work", "text": "Each task runs in its own git worktree and simulator, so several agents can work at once without colliding." },
+      { "name": "Gate", "text": "A hook runs the unit tests when the agent tries to stop. Red tests send it back to work. On Silver Screen that is 940+ tests." },
+      { "name": "Proof", "text": "UI changes need simulator screenshots in the pull request. CI runs API, Postgres, XCUITest and Compose UI tests." },
+      { "name": "Review", "text": "Every pull request gets a code review pass before it merges. Agents may merge their own reviewed work." },
+      { "name": "Release", "text": "Only I can tag a release. A guard hook blocks agents from tagging or touching production, and the App Store phased rollout halts itself if the Sentry crash-free rate drops." }
+    ],
+    "meta": "This site works the same way. A scheduled job watches my app repositories for new release tags, reads what changed, and opens a pull request here only when a build changes something a visitor would care about."
+  },
+  "skills": [
+    { "group": "Languages", "items": ["Swift", "Kotlin", "TypeScript", "JavaScript", "Objective-C"] },
+    { "group": "Mobile", "items": ["SwiftUI", "UIKit", "Jetpack Compose", "Swift Concurrency", "Combine", "SwiftData", "SQLite", "WidgetKit", "ActivityKit"] },
+    { "group": "Testing & release", "items": ["XCTest", "XCUITest", "Swift Testing", "GitHub Actions", "TestFlight", "Sentry", "Crashlytics"] },
+    { "group": "Backend", "items": ["Node.js / Fastify", "PostgreSQL", "Firebase", "Auth0", "Cloudflare Workers", "OpenTelemetry"] },
+    { "group": "Working with agents", "items": ["Claude Code", "Cursor", "rules and hooks", "CI gates for agent-written code"] }
+  ],
+  "earlier": [
+    { "role": "Web Developer", "org": "Web Services Management", "when": "2021" },
+    { "role": "iOS Contractor", "org": "Spec-Rite Systems", "when": "2020" },
+    { "role": "Web Developer", "org": "305Spin", "when": "2018 – 2019" },
+    { "role": "Systems Engineer", "org": "Verizon", "when": "2016 – 2017" }
+  ],
+  "education": "B.S. Computer Science and Mathematics–Economics, St. Lawrence University, 2016"
+}

@@ -1,0 +1,120 @@
+{
+  "id": "cash-flow",
+  "name": "Cash Flow",
+  "scene": "cash",
+  "tagline": "Have I made more than I've spent?",
+  "subtitle": "One question, answered honestly",
+  "pitch": "Cash Flow syncs your accounts and answers the only budgeting question most people have. No categories to babysit, no envelopes, no guilt.",
+  "privacy": "No analytics. No app backend. Your data stays on your phone.",
+  "platforms": "iPhone",
+  "icon": "",
+  "status": "Open source. Build it yourself from GitHub",
+  "source": {
+    "repo": "collinbrowse/CashFlow",
+    "tagPattern": "^v(\\d+\\.\\d+\\.\\d+)$",
+    "changelog": ""
+  },
+  "release": {
+    "tag": "",
+    "version": "1.0.0",
+    "build": "1",
+    "date": "2026-09-21",
+    "notes": []
+  },
+  "links": [
+    {
+      "label": "Source on GitHub",
+      "href": "https://github.com/collinbrowse/CashFlow"
+    }
+  ],
+  "hero": {
+    "video": "media/cash-flow/tour.mp4",
+    "poster": "media/cash-flow/tour.jpg"
+  },
+  "clips": [],
+  "features": [
+    {
+      "title": "The answer, up front",
+      "text": "Net cash flow for any range, with money in and money out beside it. Press and drag the chart to see any day."
+    },
+    {
+      "title": "Your banks, without Plaid",
+      "text": "Accounts sync through SimpleFIN. Or explore with demo data before you connect anything."
+    },
+    {
+      "title": "On-device AI that tidies up",
+      "text": "Apple's on-device model cleans up merchant names and suggests categories. Tell the assistant a rule in plain language, preview it, and undo it if you change your mind."
+    },
+    {
+      "title": "Tags for real life",
+      "text": "Tag spending the way you think about it, like “Japan Trip” or “Local Concert”, and see totals by tag."
+    },
+    {
+      "title": "Widgets and Live Activities",
+      "text": "Net cash flow on your Home and Lock Screen across seven time frames, and progress in the Dynamic Island while a cleanup runs."
+    },
+    {
+      "title": "Locked by default",
+      "text": "Face ID or Touch ID with a passcode fallback. Import and export CSV whenever you like."
+    }
+  ],
+  "engineering": {
+    "intro": "A small app with strict architecture: three modules, one composition root, and a CI check that fails the build if a layer imports something it shouldn't.",
+    "facts": [
+      {
+        "k": "3",
+        "v": "modules: domain, data, app"
+      },
+      {
+        "k": "~300",
+        "v": "tests written with Swift Testing"
+      },
+      {
+        "k": "0",
+        "v": "uses of Double for money. Decimal throughout"
+      },
+      {
+        "k": "0",
+        "v": "servers. Everything runs on the phone"
+      }
+    ],
+    "points": [
+      {
+        "title": "Clean Architecture that's enforced",
+        "text": "The domain package imports only Foundation. A script in CI rejects SwiftData, ActivityKit or Foundation Models imports in the wrong layer, so the boundaries can't erode quietly."
+      },
+      {
+        "title": "Swift 6, complete concurrency checking",
+        "text": "A single-flight sync coordinator and AsyncStream progress, all under strict concurrency."
+      },
+      {
+        "title": "Decisions written down",
+        "text": "Architecture decision records cover SimpleFIN over Plaid, local-only SwiftData, the module boundary, and how category rules take precedence."
+      },
+      {
+        "title": "Foundation Models, on device",
+        "text": "Title cleanup, category suggestions and natural-language rules run on Apple's on-device model. Nothing about your spending leaves the phone."
+      },
+      {
+        "title": "System integrations",
+        "text": "WidgetKit with App Intents configuration, ActivityKit Live Activities, background processing tasks, Keychain and an App Group shared store."
+      }
+    ],
+    "stack": [
+      "Swift 6",
+      "SwiftUI",
+      "Swift Charts",
+      "SwiftData",
+      "Foundation Models",
+      "WidgetKit",
+      "ActivityKit",
+      "App Intents",
+      "Swift Testing",
+      "XcodeGen"
+    ]
+  },
+  "try": {
+    "title": "Drag the chart.",
+    "text": "This is the home screen idea in miniature: one number, one line, and your finger to ask about any day."
+  }
+}

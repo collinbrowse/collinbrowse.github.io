@@ -1,0 +1,101 @@
+name: Watch app releases
+
+# Checks the app repositories for new release tags. Routine builds only bump the
+# version shown on the site. Builds that change something worth telling visitors
+# about open a pull request with the proposed copy for Collin to review.
+
+on:
+  schedule:
+    - cron: "23 */6 * * *"
+  workflow_dispatch:
+  repository_dispatch:
+    types: [app-release]
+
+permissions:
+  contents: write
+  pull-requests: write
+  actions: write
+  id-token: write
+
+concurrency:
+  group: watch-releases
+  cancel-in-progress: false
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      HAS_CLAUDE: ${{ secrets.ANTHROPIC_API_KEY != '' || secrets.CLAUDE_CODE_OAUTH_TOKEN != '' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Look for new builds
+        id: check
+        run: node scripts/check-releases.mjs
+
+      - name: Judge whether the site should change
+        if: steps.check.outputs.changed == 'true' && env.HAS_CLAUDE == 'true'
+        continue-on-error: true
+        uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          prompt: "Follow the instructions in .github/release-review-prompt.md exactly."
+          claude_args: |
+            --allowedTools "Read,Glob,Grep,Edit,Write"
+            --max-turns 30
+
+      - name: Make sure the site still builds
+        if: steps.check.outputs.changed == 'true'
+        run: node build.mjs
+
+      - name: Commit the bump or open a pull request
+        if: steps.check.outputs.changed == 'true'
+        env:
+          SUMMARY: ${{ steps.check.outputs.summary }}
+          SLUG: ${{ steps.check.outputs.slug }}
+        run: |
+          set -euo pipefail
+          git config user.name "release-watcher[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          MEANINGFUL=unknown; NOTE=""; MEDIA=""
+          if [ -f .update/verdict.json ]; then
+            MEANINGFUL=$(node -p "String(JSON.parse(require('fs').readFileSync('.update/verdict.json','utf8')).meaningful === true)")
+            NOTE=$(node -p "JSON.parse(require('fs').readFileSync('.update/verdict.json','utf8')).summary || ''")
+            MEDIA=$(node -p "JSON.parse(require('fs').readFileSync('.update/verdict.json','utf8')).needsMedia || ''")
+          fi
+          cp .update/context.md "$RUNNER_TEMP/context.md"
+          rm -rf .update
+          # Only content may change. Anything else the review step touched is discarded.
+          git add content
+          git checkout -- . && git clean -fdq -e dist
+
+          if [ "$MEANINGFUL" = "false" ]; then
+            git commit -m "Bump $SUMMARY" -m "Routine build: $NOTE"
+            git push origin HEAD:main
+            gh workflow run deploy.yml --ref main
+            exit 0
+          fi
+
+          BRANCH="release/$SLUG"
+          git checkout -b "$BRANCH"
+          git commit -m "Update site for $SUMMARY"
+          git push --force origin "$BRANCH"
+          {
+            if [ "$MEANINGFUL" = "true" ]; then
+              echo "**Why this needs a look:** $NOTE"
+            else
+              echo "**No automated review ran** (add an \`ANTHROPIC_API_KEY\` or \`CLAUDE_CODE_OAUTH_TOKEN\` secret to enable it), so this only bumps the version. Check below whether the copy should change too."
+            fi
+            [ -n "$MEDIA" ] && echo && echo "**Media worth recording:** $MEDIA"
+            echo; echo "<details><summary>What changed in the app</summary>"; echo
+            head -c 20000 "$RUNNER_TEMP/context.md"
+            echo; echo "</details>"
+          } > "$RUNNER_TEMP/body.md"
+          gh pr create --base main --head "$BRANCH" --title "Update site for $SUMMARY" --body-file "$RUNNER_TEMP/body.md" \
+            || gh pr edit "$BRANCH" --body-file "$RUNNER_TEMP/body.md"

@@ -1,0 +1,127 @@
+{
+  "id": "crewcue",
+  "name": "CrewCue",
+  "scene": "crew",
+  "tagline": "Race day, in sync.",
+  "subtitle": "For ultra runners and the crews who chase them",
+  "pitch": "CrewCue builds your splits to every aid station, then keeps your crew on the same page while you run: where you are, when you'll arrive, and what you need when you get there.",
+  "privacy": "",
+  "platforms": "iPhone and Android",
+  "icon": "media/crewcue/icon.png",
+  "status": "In development. No public build yet",
+  "source": {
+    "repo": "collinbrowse/CrewCue",
+    "tagPattern": "^v(\\d+\\.\\d+\\.\\d+)$",
+    "changelog": ""
+  },
+  "release": {
+    "tag": "",
+    "version": "",
+    "build": "",
+    "date": "",
+    "notes": []
+  },
+  "links": [
+    {
+      "label": "Source on GitHub",
+      "href": "https://github.com/collinbrowse/CrewCue"
+    }
+  ],
+  "hero": {
+    "video": "",
+    "poster": "",
+    "image": "media/crewcue/welcome.jpg",
+    "alt": "CrewCue welcome screen"
+  },
+  "clips": [],
+  "features": [
+    {
+      "title": "A pace plan for the course you're running",
+      "text": "Import the GPX and get an estimated finish with splits to each aid station, adjusted for the climbing in between."
+    },
+    {
+      "title": "Live position and arrival times",
+      "text": "Your phone reports where you are. Your crew sees percent complete, the next aid station and a live ETA, with a warning if a cutoff is getting close."
+    },
+    {
+      "title": "Aid-station check-ins",
+      "text": "One tap when the runner comes through, and everyone on the crew knows."
+    },
+    {
+      "title": "Crew chat",
+      "text": "Messages and photos in one thread, with push notifications that respect who needs to know what."
+    },
+    {
+      "title": "Works when the signal doesn't",
+      "text": "Actions queue offline and sync when the canyon lets you back on the network."
+    },
+    {
+      "title": "A schedule your crew can print",
+      "text": "Export the plan as a sheet: where to be, when, and what to have ready."
+    }
+  ],
+  "engineering": {
+    "intro": "A native iOS and Android app sharing one Swift core, with a TypeScript API behind it. Agents built the first version in React Native. I made the call to go native and directed the migration.",
+    "facts": [
+      {
+        "k": "2",
+        "v": "native clients: SwiftUI and Jetpack Compose"
+      },
+      {
+        "k": "1",
+        "v": "Swift core shared by both, over JNI on Android"
+      },
+      {
+        "k": "71",
+        "v": "API test files, plus Postgres integration tests"
+      },
+      {
+        "k": "660",
+        "v": "pull requests and issues in the repository so far"
+      }
+    ],
+    "points": [
+      {
+        "title": "One Swift core, two platforms",
+        "text": "Business logic lives in a UI-free Swift package. iOS links it directly; Android calls it through JNI using the Swift Android SDK. Wire types for both are generated from one contracts package."
+      },
+      {
+        "title": "Replacing 28,000 lines of Expo",
+        "text": "The React Native version worked, but the map and background location needed native control. The decision and its trade-offs are written up as an architecture decision record."
+      },
+      {
+        "title": "Parity you can check",
+        "text": "Each feature has a behavior checklist and a fixture deep link, and both platforms record device proof against it. A feature isn't done until iOS and Android both pass."
+      },
+      {
+        "title": "An API built for bad networks",
+        "text": "Fastify and Zod on Postgres, with an event log, snapshots and idempotency keys so a retried request from a dead zone never double-applies."
+      },
+      {
+        "title": "CI on every pull request",
+        "text": "Lint, types, API and Postgres tests, an XCUITest smoke run, Android emulator tests, a Swift cross-compile for Android, CodeQL and secret scanning."
+      },
+      {
+        "title": "Agents merge, humans release",
+        "text": "Agents merge their own reviewed pull requests. A guard hook stops them from tagging a release or touching production, and the production deploy waits for my approval."
+      }
+    ],
+    "stack": [
+      "SwiftUI",
+      "Jetpack Compose",
+      "Swift on Android (JNI)",
+      "MapLibre",
+      "Fastify",
+      "TypeScript",
+      "PostgreSQL",
+      "Auth0",
+      "OpenTelemetry",
+      "Railway",
+      "GitHub Actions"
+    ]
+  },
+  "try": {
+    "title": "Set a goal. Watch the splits move.",
+    "text": "Drag the goal time and the plan re-paces every climb. Move the race clock to see what your crew would see mid-race."
+  }
+}

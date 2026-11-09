@@ -1,0 +1,65 @@
+{
+  "id": "silver-screen",
+  "name": "Silver Screen",
+  "scene": "silver",
+  "tagline": "It's Letterboxd, but with TV.",
+  "subtitle": "Track and rate movies and TV",
+  "pitch": "Rate what you just watched, write the review, and line up what's next. Every Best Picture winner is a tap away.",
+  "privacy": "No account needed. Your lists, ratings and reviews stay on your device.",
+  "platforms": "iPhone and iPad",
+  "icon": "media/silver-screen/icon.png",
+  "status": "1.0 is on TestFlight and headed to the App Store",
+  "source": {
+    "repo": "collinbrowse/Silver-Screen",
+    "tagPattern": "^testflight/(\\d+\\.\\d+\\.\\d+)\\+(\\d+)$",
+    "changelog": "CHANGELOG.md"
+  },
+  "release": {
+    "tag": "testflight/1.0.0+11",
+    "version": "1.0.0",
+    "build": "11",
+    "date": "2026-11-09",
+    "notes": [
+      "Version 1.0.0, the build submitted for the first App Store release.",
+      "New screenshots and a 30-second App Store preview.",
+      "Clearer support page and privacy policy."
+    ]
+  },
+  "links": [
+    { "label": "Source on GitHub", "href": "https://github.com/collinbrowse/Silver-Screen" },
+    { "label": "Privacy", "href": "https://collinbrowse.github.io/Silver-Screen/privacy/" },
+    { "label": "Support", "href": "https://collinbrowse.github.io/Silver-Screen/support/" }
+  ],
+  "hero": { "video": "media/silver-screen/preview.mp4", "poster": "media/silver-screen/preview.jpg" },
+  "clips": [
+    { "id": "browse", "label": "Browse", "title": "What's worth watching", "text": "Popular, in theaters and coming soon, with trailers and where each title streams." },
+    { "id": "rate", "label": "Rate", "title": "Rate it. Review it. Remember it.", "text": "Scores from 0.5 to 10 in half points, for movies, series, seasons and single episodes." },
+    { "id": "awards", "label": "Awards", "title": "Awards history, built in", "text": "Oscar, BAFTA and Emmy history by ceremony and category, on every title and every person." },
+    { "id": "tv", "label": "TV", "title": "TV, down to the episode", "text": "Mark episodes as you go and pick up where you left off under In Progress." },
+    { "id": "search", "label": "Search", "title": "Search that forgives typos", "text": "Christopher Waltz finds Christoph Waltz." },
+    { "id": "person", "label": "People", "title": "Follow the cast", "text": "Filmographies and award records for actors and directors." }
+  ],
+  "features": [
+    { "title": "Lists that are yours", "text": "Watched, Watchlist, and ranked custom lists. A diary keeps watch dates and rewatches.", "image": "media/silver-screen/07-custom-list.jpg" },
+    { "title": "Every Best Picture winner", "text": "Browse a century of ceremonies and tick off what you have seen.", "image": "media/silver-screen/05-best-picture.jpg" },
+    { "title": "Series, seasons, episodes", "text": "Rate a whole show or just the finale.", "image": "media/silver-screen/06-series.jpg" }
+  ],
+  "engineering": {
+    "intro": "A SwiftUI app I built by directing Claude Code across more than 100 pull requests, with a release pipeline that goes from a git tag to TestFlight on its own.",
+    "facts": [
+      { "k": "38K", "v": "lines of Swift 6 in 241 files" },
+      { "k": "940+", "v": "unit tests gating every agent session" },
+      { "k": "1", "v": "third-party dependency (Sentry)" },
+      { "k": "518", "v": "commits in the first ten weeks" }
+    ],
+    "points": [
+      { "title": "Hand-written SQLite, no ORM", "text": "Repositories are actors over SQLite in WAL mode. Writes are diffed and carry revisions, timestamps and tombstones, so the store is ready for sync before sync exists. Schema migrations are versioned." },
+      { "title": "A backend that fits in one file", "text": "A Cloudflare Worker proxies TMDB so the API token never ships in the app. It allow-lists paths, caches for four hours and rate-limits each IP." },
+      { "title": "Awards data pipeline", "text": "A weekly job joins Wikidata award records to TMDB ids and rebuilds the bundled catalog of Oscar, BAFTA and Emmy history." },
+      { "title": "Tag-driven releases", "text": "Pushing a tag archives the app and uploads to TestFlight with screenshots and preview video. The phased App Store rollout can start and halt based on Sentry crash-free rates." },
+      { "title": "Marketing as code", "text": "The screenshots and clips on this page are recorded by a script that drives the simulator through a scripted tour, then frames the output." },
+      { "title": "Watching production", "text": "Sentry for crashes, anonymous TelemetryDeck events sent with plain URLSession, a daily TMDB contract check, and a weekly digest that files a GitHub issue." }
+    ],
+    "stack": ["Swift 6", "SwiftUI", "@Observable", "actors", "SQLite", "Cloudflare Workers", "Sentry", "GitHub Actions", "App Store Connect API"]
+  }
+}
