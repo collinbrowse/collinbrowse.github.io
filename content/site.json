@@ -3,8 +3,13 @@
   "url": "https://collinbrowse.github.io",
   "location": "Durango, Colorado",
   "role": "iOS engineer",
-  "headline": "I build iOS apps from the first commit to the App Store.",
-  "subhead": "Five years of Swift, four of them in HIPAA-regulated healthcare. Lately I ship whole products on my own by directing AI coding agents inside test-gated workflows I designed.",
+  "headline": "I make iPhone apps.",
+  "photo": "https://github.com/collinbrowse.png?size=400",
+  "intro": [
+    "I'm Collin, an iOS engineer in Durango, Colorado. I spent four and a half years building physical-therapy apps at {amv}, including one I took from an empty repo to the App Store on my own.",
+    "Now I'm building three apps of my own: {silver-screen}, {crewcue} and {cash-flow}. I direct AI coding agents to write most of the code, and I'm strict about what they're allowed to merge. Scroll down and play with them."
+  ],
+  "looking": "I'm looking for my next iOS role, remote or in Colorado.",
   "description": "Collin Browse is an iOS engineer in Durango, Colorado. Portfolio: AMV ConnEx, Silver Screen, CrewCue and Cash Flow.",
   "links": {
     "github": "https://github.com/collinbrowse",

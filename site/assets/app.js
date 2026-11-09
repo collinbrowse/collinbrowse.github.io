@@ -117,7 +117,7 @@
       t.textContent = name;
       return g;
     });
-    const runner = svg('circle', { class: 'runner', r: 7 }, chart);
+    const runner = svg('circle', { class: 'runner-dot', r: 7 }, chart);
 
     const goal = $('[data-goal]', root), clock = $('[data-clock]', root);
     const fmtDur = (min) => `${Math.floor(min / 60)}h ${String(Math.round(min % 60)).padStart(2, '0')}m`;
