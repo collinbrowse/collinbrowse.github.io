@@ -60,7 +60,7 @@ ${body}
 </html>
 `;
 
-const phone = (video, poster, base, tilt = -2.5) => `<div class="phone" style="--tilt:${tilt}deg"><video data-auto muted loop playsinline preload="metadata" src="${base}${video}" poster="${base}${poster}"></video></div>`;
+const phone = (video, poster, base) => `<div class="phone"><video data-auto muted loop playsinline preload="metadata" src="${base}${video}" poster="${base}${poster}"></video></div>`;
 const clipList = (a) => a.clips.map((c) => ({ ...c, video: `media/${a.id}/${c.id}.mp4`, poster: `media/${a.id}/${c.id}.jpg` })).filter((c) => has(c.video));
 const clipButtons = (clips, base, label) => `<div class="clips" role="tablist" aria-label="${esc(label)}">${clips.map((c, i) =>
   `<button role="tab" aria-selected="${i === 0}" data-src="${base}${c.video}" data-poster="${base}${c.poster}"><b>${esc(c.title)}</b><span>${esc(c.text)}</span></button>`).join('')}</div>`;
@@ -239,7 +239,7 @@ const appPage = (a) => {
   const base = '../';
   const clips = clipList(a);
   const heroMedia = has(a.hero.video) ? phone(a.hero.video, a.hero.poster, base, 3)
-    : has(a.hero.image) ? `<div class="phone" style="--tilt:3deg"><img src="${base}${a.hero.image}" alt="${esc(a.hero.alt || a.name)}"></div>` : '';
+    : has(a.hero.image) ? `<div class="phone"><img src="${base}${a.hero.image}" alt="${esc(a.hero.alt || a.name)}"></div>` : '';
   const toy = a.id === 'crewcue' ? paceToy : a.id === 'cash-flow' ? cashToy : '';
   const shots = a.features.filter((f) => has(f.image));
   const plain = a.features.filter((f) => !has(f.image));

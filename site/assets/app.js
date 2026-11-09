@@ -47,7 +47,7 @@
   // ---- Demo phones hang from a pin near the top. Grab one and it swings like a pendulum.
   $$('.phone').forEach((el) => {
     const PIN = 96, MAX = 6, K = 16, DAMP = 0.55;           // px below the top; degrees; spring; friction
-    const rest = parseFloat(getComputedStyle(el).getPropertyValue('--tilt')) || 0;
+    const rest = 0;                                          // hangs straight down
     let angle = rest, vel = 0, held = false, raf = 0, a0 = 0, p0 = 0, lastA = rest, lastT = 0;
     const set = () => el.style.setProperty('--angle', angle.toFixed(3) + 'deg');
     const pin = () => { let x = 0, y = 0; for (let n = el; n; n = n.offsetParent) { x += n.offsetLeft; y += n.offsetTop; } return [x - scrollX + el.offsetWidth / 2, y - scrollY + PIN]; };
