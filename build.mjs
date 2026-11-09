@@ -97,7 +97,7 @@ const cashToy = `<div class="cash" data-cash>
 </div>`;
 
 const rateToy = `<div class="rate" data-rate>
-  <div class="slider-label"><span>Rate this site, in half points</span><span class="rate-score">8.5</span></div>
+  <div class="slider-label"><span>Rate this site</span><span class="rate-score">8.5</span></div>
   <input type="range" min="1" max="20" value="17" aria-label="Rating from 0.5 to 10">
   <p class="rate-say"></p>
 </div>`;
@@ -105,7 +105,7 @@ const rateToy = `<div class="rate" data-rate>
 const cvToy = `<div class="stack tight" style="justify-items:center"><div class="cv" data-cv>
   <div class="hud"><span>Squat, set 2 of 3</span><span data-reps>Rep 0</span></div>
   <div class="cue"><div><small>Knee angle</small><b data-angle>170°</b></div><span data-cue>Ready</span></div>
-</div><p class="fine" style="margin-top:14px">My sketch of the idea. Not footage of the app.</p></div>`;
+</div><p class="fine cv-note">This is my own sketch of the idea, not the app. Footage and screenshots of AMV's apps belong to the company, and I don't have permission to share them here. The <a href="${site.amv.products[0].store}">App Store listing</a> shows the real thing.</p></div>`;
 
 // ---------- Home ----------
 const homeNav = `<li><a href="#apps">Apps</a></li><li class="wide"><a href="#work">Work</a></li><li class="wide"><a href="#how">How I build</a></li><li><a href="#hi">Say hi</a></li>`;
@@ -134,6 +134,7 @@ const home = page({
   <div class="cols center">
     <div class="phone-spot">
       ${ssClips.length ? phone(ssClips[0].video, ssClips[0].poster, '') : ''}
+      <span class="note" style="transform:rotate(2deg)">grab the phone, it swings</span>
     </div>
     <div class="stack">
       ${title(ss)}

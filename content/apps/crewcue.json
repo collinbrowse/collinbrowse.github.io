@@ -61,7 +61,7 @@
     }
   ],
   "engineering": {
-    "intro": "A native iOS and Android app sharing one Swift core, with a TypeScript API behind it. Agents built the first version in React Native. I made the call to go native and directed the migration.",
+    "intro": "A native iOS and Android app sharing one Swift core, with a TypeScript API behind it. I prototyped in React Native to move fast, then directed the move to native once the product's shape was clear.",
     "facts": [
       {
         "k": "2",
@@ -86,8 +86,8 @@
         "text": "Business logic lives in a UI-free Swift package. iOS links it directly; Android calls it through JNI using the Swift Android SDK. Wire types for both are generated from one contracts package."
       },
       {
-        "title": "Replacing 28,000 lines of Expo",
-        "text": "The React Native version worked, but the map and background location needed native control. The decision and its trade-offs are written up as an architecture decision record."
+        "title": "Prototype in Expo, ship native",
+        "text": "I used Expo to get a working product quickly and learn what the app needed to be. Once maps, chat and background location became the core of it, I rebuilt the clients natively so they use the platform SDKs directly. The decision and its trade-offs are written up as an architecture decision record."
       },
       {
         "title": "Parity you can check",

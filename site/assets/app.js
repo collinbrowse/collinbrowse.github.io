@@ -44,6 +44,48 @@
   $$('video[data-auto]').forEach((v) => vio.observe(v));
   if (reduced) $$('video[data-auto]').forEach((v) => { v.controls = true; });
 
+  // ---- Demo phones hang from a pin near the top. Grab one and it swings like a pendulum.
+  $$('.phone').forEach((el) => {
+    const PIN = 96, MAX = 6, K = 16, DAMP = 0.55;           // px below the top; degrees; spring; friction
+    const rest = parseFloat(getComputedStyle(el).getPropertyValue('--tilt')) || 0;
+    let angle = rest, vel = 0, held = false, raf = 0, a0 = 0, p0 = 0, lastA = rest, lastT = 0;
+    const set = () => el.style.setProperty('--angle', angle.toFixed(3) + 'deg');
+    const pin = () => { let x = 0, y = 0; for (let n = el; n; n = n.offsetParent) { x += n.offsetLeft; y += n.offsetTop; } return [x - scrollX + el.offsetWidth / 2, y - scrollY + PIN]; };
+    // Angle of the pointer around the pin, as a CSS rotation (0 = straight down).
+    const pointerAngle = (e) => { const [x, y] = pin(); return -Math.atan2(e.clientX - x, Math.max(40, e.clientY - y)) * 180 / Math.PI; };
+    const swing = (t) => {
+      const dt = Math.min(0.032, (t - lastT) / 1000 || 0.016); lastT = t;
+      vel += (-K * (angle - rest) - DAMP * vel) * dt;
+      angle += vel * dt;
+      if (Math.abs(angle) > MAX) { angle = Math.sign(angle) * MAX; vel *= -0.3; }
+      set();
+      if (Math.abs(angle - rest) < 0.02 && Math.abs(vel) < 0.05) { angle = rest; set(); raf = 0; return; }
+      raf = requestAnimationFrame(swing);
+    };
+    el.addEventListener('pointerdown', (e) => {
+      if (e.button) return;
+      held = true; cancelAnimationFrame(raf); raf = 0; vel = 0;
+      el.setPointerCapture(e.pointerId); el.classList.add('held');
+      a0 = angle; p0 = pointerAngle(e); lastA = angle; lastT = performance.now();
+    });
+    el.addEventListener('pointermove', (e) => {
+      if (!held) return;
+      angle = Math.max(-MAX, Math.min(MAX, a0 + pointerAngle(e) - p0));
+      const now = performance.now(), dt = (now - lastT) / 1000;
+      if (dt > 0.008) { vel = 0.6 * vel + 0.4 * (angle - lastA) / dt; lastA = angle; lastT = now; }
+      set();
+    });
+    const release = () => {
+      if (!held) return;
+      held = false; el.classList.remove('held');
+      vel = Math.max(-60, Math.min(60, vel)); lastT = performance.now();
+      if (reduced) { angle = rest; set(); return; }
+      raf = requestAnimationFrame(swing);
+    };
+    el.addEventListener('pointerup', release); el.addEventListener('pointercancel', release);
+    el.addEventListener('dragstart', (e) => e.preventDefault());
+  });
+
   // ---- Clip switchers (tabs that swap a phone's video).
   $$('[data-switcher]').forEach((root) => {
     const video = $('video', root);
@@ -170,31 +212,38 @@
 
   // ---- Cash Flow: cumulative net chart with press-and-drag scrubbing.
   $$('[data-cash]').forEach((root) => {
-    // Deterministic demo ledger: 180 days ending today.
+    // Demo ledger: 180 days ending today, defined by "days ago" so the shape never changes.
+    // Every shorter range is the tail of the longer one, as in the app.
     let seed = 20260921; const rnd = () => (seed = (seed * 1664525 + 1013904223) >>> 0) / 4294967296;
     const days = 180, today = new Date(); today.setHours(12, 0, 0, 0);
+    const oneOff = { 170: 2600, 121: 480, 84: 900, 44: 640, 12: 310 };   // car repair, flights, and so on
     const ledger = [];
-    for (let i = days - 1; i >= 0; i--) {
-      const date = new Date(today); date.setDate(today.getDate() - i);
-      let inc = 0, out = 18 + rnd() * 74;
-      if (date.getDate() === 1) out += 1650;
-      if (date.getDate() === 15 || date.getDate() === 28) inc += 2380;
-      if (date.getDay() === 6) out += 60 + rnd() * 90;
-      if (rnd() < 0.045) out += 180 + rnd() * 520;
-      if (rnd() < 0.02) inc += 120 + rnd() * 400;
+    for (let ago = days - 1; ago >= 0; ago--) {
+      const date = new Date(today); date.setDate(today.getDate() - ago);
+      let inc = 0, out = 22 + rnd() * 70;
+      if (ago % 30 === 27) out += 1650;            // rent
+      if (ago % 14 === 9) inc += 2380;             // paycheck
+      if (ago % 7 === 2) out += 60 + rnd() * 80;   // weekend
+      if (oneOff[ago]) out += oneOff[ago];
       ledger.push({ date, inc, out });
     }
     const W = 560, H = 200, pad = 10;
     const chart = svg('svg', { viewBox: `0 0 ${W} ${H}`, role: 'img', 'aria-label': 'Cumulative net cash flow for the selected range. Drag to inspect a day.' });
     $('.cash-chart', root).appendChild(chart);
-    const fill = svg('path', { class: 'fill' }, chart);
+    // Two copies of the curve: green clipped to above zero, red clipped to below it.
+    const uid = 'cash' + Math.random().toString(36).slice(2, 8);
+    const defs = svg('defs', {}, chart);
+    const clipUp = svg('rect', { x: -20, width: W + 40 }, svg('clipPath', { id: uid + 'u' }, defs));
+    const clipDown = svg('rect', { x: -20, width: W + 40 }, svg('clipPath', { id: uid + 'd' }, defs));
+    const up = svg('g', { 'clip-path': `url(#${uid}u)` }, chart), down = svg('g', { class: 'below', 'clip-path': `url(#${uid}d)` }, chart);
+    const curves = [up, down].map((g) => [svg('path', { class: 'fill' }, g), svg('path', { class: 'line' }, g)]);
     const zero = svg('line', { class: 'zero', x1: 0, x2: W }, chart);
-    const line = svg('path', { class: 'line' }, chart);
     const scrub = svg('g', { class: 'scrub', visibility: 'hidden' }, chart);
     const sLine = svg('line', { y1: 0, y2: H }, scrub), sDot = svg('circle', { r: 6 }, scrub);
     const money = (n, sign) => (sign ? (n < 0 ? '−' : '+') : '') + '$' + Math.abs(Math.round(n)).toLocaleString('en-US');
     const day = (d) => d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
     let series = [], range = 30, xs, ys;
+    const label = { 30: '30 days', 90: '90 days', 180: '6 months' };
 
     const show = (i) => {
       const live = i == null; if (live) i = series.length - 1;
@@ -203,10 +252,10 @@
       net.textContent = money(p.net, true); net.className = 'cash-net ' + (p.net >= 0 ? 'pos' : 'neg');
       $('[data-in]', root).textContent = money(p.inc); $('[data-out]', root).textContent = money(p.out);
       $('.cash-verdict', root).textContent = live
-        ? (p.net >= 0 ? `Yes. You're ${money(p.net)} ahead over the last ${range} days.` : `Not yet. You're ${money(p.net)} behind over the last ${range} days.`)
+        ? (p.net >= 0 ? `Yes. You're ${money(p.net)} ahead over the last ${label[range]}.` : `Not yet. You're ${money(p.net)} behind over the last ${label[range]}.`)
         : `${day(series[0].date)} – ${day(p.date)}`;
       scrub.setAttribute('visibility', live ? 'hidden' : 'visible');
-      if (!live) { sLine.setAttribute('x1', xs(i)); sLine.setAttribute('x2', xs(i)); sDot.setAttribute('cx', xs(i)); sDot.setAttribute('cy', ys(p.net)); }
+      if (!live) { sLine.setAttribute('x1', xs(i)); sLine.setAttribute('x2', xs(i)); sDot.setAttribute('cx', xs(i)); sDot.setAttribute('cy', ys(p.net)); sDot.classList.toggle('below', p.net < 0); }
     };
     const build = () => {
       let net = 0, inc = 0, out = 0;
@@ -215,8 +264,11 @@
       xs = (i) => (i / (series.length - 1)) * W;
       ys = (v) => pad + (1 - (v - lo) / (hi - lo || 1)) * (H - 2 * pad);
       const d = series.map((p, i) => (i ? 'L' : 'M') + xs(i).toFixed(1) + ' ' + ys(p.net).toFixed(1)).join('');
-      line.setAttribute('d', d); fill.setAttribute('d', `${d}L${W} ${ys(0)}L0 ${ys(0)}Z`);
-      zero.setAttribute('y1', ys(0)); zero.setAttribute('y2', ys(0));
+      const z = ys(0);
+      curves.forEach(([f, l]) => { l.setAttribute('d', d); f.setAttribute('d', `${d}L${W} ${z}L0 ${z}Z`); });
+      clipUp.setAttribute('y', -40); clipUp.setAttribute('height', z + 40);
+      clipDown.setAttribute('y', z); clipDown.setAttribute('height', H - z + 40);
+      zero.setAttribute('y1', z); zero.setAttribute('y2', z);
       show(null);
     };
     const at = (e) => { const r = chart.getBoundingClientRect(); return Math.max(0, Math.min(series.length - 1, Math.round(((e.clientX - r.left) / r.width) * (series.length - 1)))); };

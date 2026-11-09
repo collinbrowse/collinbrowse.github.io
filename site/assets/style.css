@@ -98,9 +98,9 @@ a:hover { text-decoration-thickness: 4px; }
 .version b { color: var(--fg); }
 
 /* Phone */
-.phone { width: min(310px, 78vw); aspect-ratio: 720 / 1564; border-radius: 46px; padding: 9px; background: #050505; box-shadow: 0 0 0 1.5px #333 inset, 0 40px 70px -30px rgba(0,0,0,.6); transform: rotate(var(--tilt, -2.5deg)); transition: transform .4s ease; }
-.phone:hover { transform: rotate(0deg); }
-.phone video, .phone img { width: 100%; height: 100%; object-fit: cover; border-radius: 38px; background: #000; }
+.phone { width: min(310px, 78vw); aspect-ratio: 720 / 1564; border-radius: 46px; padding: 9px; background: #050505; box-shadow: 0 0 0 1.5px #333 inset, 0 40px 70px -30px rgba(0,0,0,.6); transform: rotate(var(--angle, var(--tilt, -2.5deg))); transform-origin: 50% 96px; cursor: grab; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
+.phone.held { cursor: grabbing; }
+.phone video, .phone img { pointer-events: none; -webkit-user-drag: none; width: 100%; height: 100%; object-fit: cover; border-radius: 38px; background: #000; }
 .phone-spot { display: grid; justify-items: center; gap: 18px; }
 
 /* A list of clips. Picking one swaps the video. */
@@ -157,7 +157,7 @@ input[type=range]::-moz-range-thumb { width: 24px; height: 24px; border-radius: 
 /* Cash chart (Cash Flow) */
 .cash-net { font: 800 clamp(4rem, 15vw, 11rem)/.86 var(--head); letter-spacing: -.05em; font-variant-numeric: tabular-nums; margin: 10px 0 14px -.04em; }
 .cash-net.pos { color: var(--accent); }
-.cash-net.neg { color: #ff6b6b; }
+.cash-net.neg { color: #ff5f57; }
 .cash-verdict { font-size: 1.25rem; min-height: 1.6em; }
 .cash-io { display: flex; gap: 28px; margin: 6px 0 40px; font-variant-numeric: tabular-nums; }
 .cash-io span { color: var(--soft); margin-right: 8px; }
@@ -168,6 +168,9 @@ input[type=range]::-moz-range-thumb { width: 24px; height: 24px; border-radius: 
 .cash .line { fill: none; stroke: var(--accent); stroke-width: 3; stroke-linejoin: round; stroke-linecap: round; }
 .cash .fill { fill: color-mix(in srgb, var(--accent) 16%, transparent); }
 .cash .scrub line { stroke: var(--fg); stroke-width: 1; }
+.cash .below .line { stroke: #ff5f57; }
+.cash .below .fill { fill: color-mix(in srgb, #ff5f57 20%, transparent); }
+.cash .scrub circle.below { fill: #ff5f57; }
 .cash .scrub circle { fill: var(--accent); stroke: var(--bg); stroke-width: 3; }
 
 /* AMV */
@@ -227,5 +230,7 @@ input[type=range]::-moz-range-thumb { width: 24px; height: 24px; border-radius: 
 .build { border-top: 2px solid var(--fg); padding-top: 18px; display: grid; gap: 12px; max-width: 640px; }
 
 @media (prefers-reduced-motion: reduce) {
-  body, .phone, .solid { transition: none; }
+  body, .solid { transition: none; }
 }
+
+.cv-note { margin-top: 18px; max-width: 30em; text-align: center; color: var(--fg); opacity: .88; }
