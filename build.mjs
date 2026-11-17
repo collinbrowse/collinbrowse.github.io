@@ -22,7 +22,6 @@ const markSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width
 const icon = (a, base) => has(a.icon)
   ? `<img class="app-icon" src="${base}${a.icon}" alt="" width="68" height="68">`
   : `<span class="mark" aria-hidden="true">${markSvg}</span>`;
-const arrow = (flip = false) => `<svg viewBox="0 0 44 30" aria-hidden="true"${flip ? ' style="transform:scaleX(-1)"' : ''}><path d="M3 5c13-3 27 4 35 19"/><path d="M29 21l9 3 2-10"/></svg>`;
 
 const page = ({ title, description, path, scene = '', base = '', body, nav }) => `<!doctype html>
 <html lang="en">
@@ -37,9 +36,6 @@ const page = ({ title, description, path, scene = '', base = '', body, nav }) =>
 <meta property="og:type" content="website">
 <meta property="og:url" content="${site.url}${path}">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23111'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='Helvetica,Arial,sans-serif' font-weight='800' font-size='16' fill='%23fff'%3Ecb%3C/text%3E%3C/svg%3E">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Caveat:wght@600&display=swap">
 <link rel="stylesheet" href="${base}assets/style.css">
 </head>
 <body data-scene="${scene}">
@@ -87,7 +83,7 @@ const cashToy = `<div class="cash" data-cash>
   <div class="cash-net num" aria-live="polite">+$0</div>
   <p class="cash-verdict"></p>
   <div class="cash-io"><div><span>In</span><b data-in></b></div><div><span>Out</span><b data-out></b></div></div>
-  <div class="cash-chart"><span class="note">press and drag ${arrow()}</span></div>
+  <div class="cash-chart"></div>
   <div class="pick" role="tablist" aria-label="Range" style="margin-top:14px">
     <button role="tab" data-range="30" aria-selected="true">30 days</button>
     <button role="tab" data-range="90" aria-selected="false">90 days</button>
@@ -122,7 +118,7 @@ const home = page({
   title: `${site.name}, ${site.role}`, description: site.description, path: '/', nav: homeNav,
   body: `
 <section class="intro"><div class="wrap">
-  <h1 class="giant">${esc(site.headline)}${site.photo ? ` <span class="me"><img src="${esc(site.photo)}" alt="Collin Browse outdoors, smiling" width="168" height="168"><span class="note">${arrow(true)} hi, that's me</span></span>` : ''}</h1>
+  <h1 class="giant">${esc(site.headline)}${site.photo ? ` <span class="me"><img src="${esc(site.photo)}" alt="Collin Browse outdoors, smiling" width="168" height="168"></span>` : ''}</h1>
   <div class="intro-text">
     ${site.intro.map((p) => `<p class="talk">${fill(p)}</p>`).join('\n    ')}
     <p class="talk">${esc(site.looking)} <a class="go" href="#hi">Say hi</a></p>
@@ -134,7 +130,6 @@ const home = page({
   <div class="cols center">
     <div class="phone-spot">
       ${ssClips.length ? phone(ssClips[0].video, ssClips[0].poster, '') : ''}
-      <span class="note" style="transform:rotate(2deg)">grab the phone, it swings</span>
     </div>
     <div class="stack">
       ${title(ss)}
@@ -168,8 +163,7 @@ const home = page({
     </div>
     ${has('media/crewcue/runner.png') ? `<img class="runner" src="media/crewcue/runner.png" alt="Line drawing of a trail runner, from the app's welcome screen" loading="lazy">` : ''}
   </div>
-  <p class="note" style="margin-top:clamp(36px,5vw,60px)">try it: drag the sliders ${arrow()}</p>
-  ${paceToy.replace('class="pace"', 'class="pace" style="margin-top:14px"')}
+  ${paceToy.replace('class="pace"', 'class="pace" style="margin-top:clamp(36px,5vw,60px)"')}
   <ul class="plain" style="margin-top:clamp(28px,4vw,44px);max-width:46em">${cc.engineering.points.slice(0, 3).map((p) => `<li><b>${esc(p.title)}.</b> ${esc(p.text.split('. ')[0].replace(/\.$/, ''))}.</li>`).join('')}</ul>
 </div></section>
 

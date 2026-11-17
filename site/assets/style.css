@@ -1,8 +1,7 @@
 /* Collin Browse. Hand-written CSS, no framework. */
 :root {
-  --head: "Bricolage Grotesque", "SF Pro Display", -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --head: var(--body);
   --body: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", "Segoe UI", Roboto, Arial, sans-serif;
-  --hand: "Caveat", "Bradley Hand", "Segoe Print", cursive;
 
   --bg: #ffffff;
   --fg: #111111;
@@ -53,8 +52,6 @@ a:hover { text-decoration-thickness: 4px; }
 .fine  { font-size: .92rem; color: var(--soft); }
 .num   { font-variant-numeric: tabular-nums; }
 
-.note { font: 600 1.5rem/1.05 var(--hand); color: var(--accent); display: inline-flex; align-items: center; gap: 6px; transform: rotate(-3deg); white-space: nowrap; }
-.note svg { width: 44px; height: 30px; flex: none; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
 
 /* ---- Links that act like buttons ---- */
 .go { font-weight: 700; white-space: nowrap; }
@@ -76,8 +73,6 @@ a:hover { text-decoration-thickness: 4px; }
 .intro { padding: clamp(28px, 6vw, 80px) 0 clamp(64px, 9vw, 120px); }
 .me { position: relative; display: inline-block; vertical-align: -.08em; margin-left: .12em; letter-spacing: 0; }
 .me img { width: .82em; height: .82em; object-fit: cover; border-radius: 22%; transform: rotate(5deg); box-shadow: 0 .08em .2em -.06em rgba(0,0,0,.45); }
-.me .note { position: absolute; left: 92%; top: -.2rem; transform: rotate(-6deg); }
-@media (max-width: 760px) { .me .note { left: auto; right: 0; top: auto; bottom: -1.9rem; } .me .note svg { display: none; } }
 .intro-text { display: grid; gap: 1em; margin-top: clamp(28px, 4vw, 48px); }
 .applink { white-space: nowrap; font-weight: 700; }
 .applink img, .applink .mark { display: inline-block; width: 1.05em; height: 1.05em; border-radius: 24%; vertical-align: -.16em; margin-right: .28em; }
@@ -163,7 +158,6 @@ input[type=range]::-moz-range-thumb { width: 24px; height: 24px; border-radius: 
 .cash-io span { color: var(--soft); margin-right: 8px; }
 .cash-chart { position: relative; }
 .cash-chart > svg { width: 100%; height: auto; touch-action: none; cursor: crosshair; overflow: visible; }
-.cash-chart .note { position: absolute; right: 2%; top: -34px; pointer-events: none; }
 .cash .zero { stroke: var(--soft); stroke-dasharray: 3 5; }
 .cash .line { fill: none; stroke: var(--accent); stroke-width: 3; stroke-linejoin: round; stroke-linecap: round; }
 .cash .fill { fill: color-mix(in srgb, var(--accent) 16%, transparent); }
