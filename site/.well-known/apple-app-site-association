@@ -1,0 +1,12 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["84XX2W7G34.com.crewcue.ios"],
+        "components": [
+          { "/": "/crewcue/join/*", "comment": "CrewCue crew invite links" }
+        ]
+      }
+    ]
+  }
+}

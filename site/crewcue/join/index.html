@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Join a CrewCue race</title>
+<meta name="description" content="Open this invite in CrewCue to join a runner's crew.">
+<style>
+  :root { --bg: #f6f5f1; --ink: #141414; --muted: #5c5c5c; --line: #d9d6cc; --accent: #141414; --accent-ink: #ffffff; --card: #ffffff; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #111111; --ink: #f2f2f2; --muted: #a6a6a6; --line: #333333; --accent: #f2f2f2; --accent-ink: #111111; --card: #1b1b1b; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: var(--bg); color: var(--ink);
+         font: 17px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; padding: 24px 16px; }
+  main { width: 100%; max-width: 420px; background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 28px 24px; }
+  h1 { font-size: 1.5rem; line-height: 1.2; margin: 0 0 8px; }
+  p { margin: 0 0 16px; color: var(--muted); }
+  .code { font: 700 2.6rem/1 ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: 0.18em; text-align: center;
+          padding: 18px 0; margin: 8px 0 20px; border: 1px dashed var(--line); border-radius: 14px; color: var(--ink); }
+  .actions { display: grid; gap: 10px; }
+  a.button, button { display: block; width: 100%; text-align: center; font: 600 1rem/1 inherit; padding: 15px 16px; border-radius: 12px;
+          border: 1px solid var(--accent); background: var(--accent); color: var(--accent-ink); text-decoration: none; cursor: pointer; }
+  a.button.secondary, button.secondary { background: transparent; color: var(--ink); border-color: var(--line); }
+  [hidden] { display: none !important; }
+  .status { min-height: 1.5em; margin: 12px 0 0; font-size: 0.95rem; text-align: center; }
+  .error { color: var(--ink); }
+</style>
+</head>
+<body>
+<main>
+  <h1>Join a CrewCue race</h1>
+  <div id="valid" hidden>
+    <p>You've been invited to crew for a runner. Open this invite in CrewCue to see the race and join.</p>
+    <div class="code" id="code" aria-label="Invite code"></div>
+    <div class="actions">
+      <a class="button" id="open" href="#">Open CrewCue</a>
+      <a class="button secondary" id="appstore" href="#" hidden>Copy code and get the app</a>
+      <a class="button secondary" id="play" href="#" hidden>Get it on Google Play</a>
+      <button class="secondary" id="copy" type="button">Copy code</button>
+    </div>
+    <p class="status" id="status" role="status"></p>
+    <p id="manual">Don't have the app yet? Install CrewCue, sign up, choose "I'm crewing" and enter this code.</p>
+  </div>
+  <div id="invalid" hidden>
+    <p class="error">This invite link is missing its 6-digit code. Ask the runner to send it again, or open CrewCue and enter the code they gave you.</p>
+  </div>
+</main>
+<script>
+  // Store listings: fill these in once CrewCue is published. Their buttons stay hidden while empty.
+  var APP_STORE_URL = '';
+  var PLAY_STORE_URL = '';
+
+  var params = new URLSearchParams(location.search);
+  var code = (params.get('code') || '').replace(/\D/g, '');
+  var status = document.getElementById('status');
+
+  function copyCode() {
+    if (!navigator.clipboard) { return Promise.reject(new Error('no clipboard')); }
+    return navigator.clipboard.writeText(code);
+  }
+
+  if (!/^\d{6}$/.test(code)) {
+    document.getElementById('invalid').hidden = false;
+  } else {
+    document.getElementById('valid').hidden = false;
+    document.getElementById('code').textContent = code;
+    document.getElementById('open').href = 'crewcue://join/' + code;
+
+    document.getElementById('copy').addEventListener('click', function () {
+      copyCode().then(function () { status.textContent = 'Code copied.'; },
+                      function () { status.textContent = 'Copy the code above by hand.'; });
+    });
+
+    if (APP_STORE_URL) {
+      var appstore = document.getElementById('appstore');
+      appstore.hidden = false;
+      appstore.href = APP_STORE_URL;
+      appstore.addEventListener('click', function (event) {
+        event.preventDefault();
+        var go = function () { location.href = APP_STORE_URL; };
+        copyCode().then(go, go);
+      });
+    }
+    if (PLAY_STORE_URL) {
+      var play = document.getElementById('play');
+      play.hidden = false;
+      play.href = PLAY_STORE_URL + (PLAY_STORE_URL.indexOf('?') >= 0 ? '&' : '?') +
+        'referrer=' + encodeURIComponent('crewcue_join=' + code);
+    }
+    if (APP_STORE_URL || PLAY_STORE_URL) {
+      document.getElementById('manual').textContent = 'After installing, sign up and choose "I’m crewing". The app asks to paste this code.';
+    }
+  }
+</script>
+</body>
+</html>
