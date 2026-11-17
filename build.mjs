@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 const root = dirname(fileURLToPath(import.meta.url));
 const read = (p) => JSON.parse(readFileSync(join(root, p), 'utf8'));
 const site = read('content/site.json');
-const order = ['silver-screen', 'crewcue', 'cash-flow'];
+const order = ['silver-screen', 'crewcue', 'cash-flow', 'backcountry-ai'];
 const apps = readdirSync(join(root, 'content/apps')).filter((f) => f.endsWith('.json')).map((f) => read(`content/apps/${f}`))
   .sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id));
 const app = Object.fromEntries(apps.map((a) => [a.id, a]));
@@ -109,7 +109,7 @@ const homeNav = `<li><a href="#apps">Apps</a></li><li class="wide"><a href="#wor
 const appLink = (a) => `<a class="applink" href="#${a.id}">${has(a.icon) ? `<img src="${a.icon}" alt="">` : `<span class="mark">${markSvg}</span>`}${esc(a.name)}</a>`;
 const fill = (text) => esc(text).replace(/\{([a-z-]+)\}/g, (_, k) => k === 'amv' ? `<a href="#work">${esc(site.amv.company)}</a>` : app[k] ? appLink(app[k]) : '');
 
-const ss = app['silver-screen'], cc = app['crewcue'], cf = app['cash-flow'];
+const ss = app['silver-screen'], cc = app['crewcue'], cf = app['cash-flow'], bc = app['backcountry-ai'];
 const ssClips = clipList(ss);
 const more = (a) => `<p class="links"><a class="solid" href="${a.id}/">More about ${esc(a.name)}</a><a class="go" href="${a.links[0].href}">Read the code</a></p>`;
 const title = (a, base = '') => `<div class="title-row">${icon(a, base)}<p class="version">${esc(a.platforms)}<br><b>${esc(versionOf(a))}</b>${a.release.date ? `, ${fmtDate(a.release.date)}` : ''}</p></div>`;
@@ -181,13 +181,24 @@ const home = page({
     </div>
   </div>
 </div></section>
+
+<section class="chapter" id="backcountry-ai" data-scene-section="${bc.scene}"><div class="wrap">
+  <div class="stack">
+    ${title(bc)}
+    <h2 class="big">${esc(bc.name)}</h2>
+    <p class="mid">${esc(bc.tagline)}</p>
+    <p class="talk">${esc(bc.pitch)}</p>
+  </div>
+  <ul class="plain" style="margin-top:clamp(28px,4vw,44px);max-width:46em">${bc.engineering.points.slice(0, 3).map((p) => `<li><b>${esc(p.title)}.</b> ${esc(p.text.split('. ')[0].replace(/\.$/, ''))}.</li>`).join('')}</ul>
+  <div style="margin-top:clamp(28px,4vw,44px)">${more(bc)}</div>
+</div></section>
 </div>
 
 <section class="chapter" id="work" data-scene-section="amv"><div class="wrap">
   <div class="cols wide-left center">
     <div class="stack">
       <p class="version"><b>${esc(site.amv.company)}</b><br>${esc(site.amv.title)}, ${esc(site.amv.dates)}</p>
-      <h2 class="big" style="font-size:clamp(2.4rem,6.4vw,5rem)">Before that, I taught phones to watch people exercise.</h2>
+      <h2 class="big" style="font-size:clamp(2.4rem,6.4vw,5rem)">${esc(site.amv.headline)}</h2>
       <p class="talk">${esc(site.amv.summary)}</p>
     </div>
     ${cvToy}
@@ -301,7 +312,7 @@ const amvPage = page({
     <div class="stack">
       <a class="back" href="../">← back to Collin</a>
       <p class="version"><b>${esc(site.amv.company)}</b><br>${esc(site.amv.title)}, ${esc(site.amv.dates)}</p>
-      <h1 class="big" style="font-size:clamp(2.4rem,6.4vw,5rem)">From clinic iPads to a camera that coaches your squat.</h1>
+      <h1 class="big" style="font-size:clamp(2.4rem,6.4vw,5rem)">${esc(site.amv.pageHeadline)}</h1>
       <p class="talk">${esc(site.amv.summary)}</p>
     </div>
     ${cvToy}

@@ -18,6 +18,7 @@
 body[data-scene="silver"] { --bg: #16404c; --fg: #f6f1e7; --soft: #a9c3c9; --line: #2b5b68; --accent: #ffa23a; --on-accent: #1b1204; }
 body[data-scene="crew"]   { --bg: #f4ead7; --fg: #222b39; --soft: #5d6573; --line: #d9ccb2; --accent: #e9601f; --on-accent: #ffffff; }
 body[data-scene="cash"]   { --bg: #0a0a0a; --fg: #f5f5f5; --soft: #9a9a9a; --line: #2a2a2a; --accent: #4dd973; --on-accent: #04170a; }
+body[data-scene="backcountry"] { --bg: #1f3326; --fg: #f1eee4; --soft: #a7b8a9; --line: #35503d; --accent: #f2b53b; --on-accent: #1d1503; }
 body[data-scene="amv"]    { --bg: #2540d0; --fg: #ffffff; --soft: #c5cdfa; --line: #4a62e2; --accent: #ffd84a; --on-accent: #141a45; }
 
 * { box-sizing: border-box; }

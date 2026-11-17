@@ -18,7 +18,7 @@ python3 -m http.server 4173 --directory dist  # preview at localhost:4173
    - **Meaningful** (new feature, new availability, a claim on the site is now wrong): the proposed copy is pushed to a `release/...` branch and a pull request is opened for me to review.
 4. Without an API key the review step is skipped and every new build opens a pull request with the raw change list.
 
-Tags watched: `testflight/x.y.z+build` on Silver-Screen, `vX.Y.Z` on CrewCue and CashFlow.
+Tags watched: `testflight/x.y.z+build` on Silver-Screen, `vX.Y.Z` on CrewCue, CashFlow and BackcountryAI.
 
 ### One-time setup
 

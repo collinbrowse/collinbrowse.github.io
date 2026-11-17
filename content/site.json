@@ -7,10 +7,10 @@
   "photo": "https://github.com/collinbrowse.png?size=400",
   "intro": [
     "I'm Collin, an iOS engineer in Durango, Colorado. I spent four and a half years building physical-therapy apps at {amv}, including one I took from an empty repo to the App Store on my own.",
-    "Now I'm building three apps of my own: {silver-screen}, {crewcue} and {cash-flow}. I direct AI coding agents to write most of the code, and I'm strict about what they're allowed to merge. Scroll down and play with them."
+    "Now I'm building four apps of my own: {silver-screen}, {crewcue}, {cash-flow} and {backcountry-ai}. I direct AI coding agents to write most of the code, and I'm strict about what they're allowed to merge. Scroll down and play with them."
   ],
   "looking": "I'm looking for my next iOS role, remote or in Colorado.",
-  "description": "Collin Browse is an iOS engineer in Durango, Colorado. Portfolio: AMV ConnEx, Silver Screen, CrewCue and Cash Flow.",
+  "description": "Collin Browse is an iOS engineer in Durango, Colorado. Portfolio: AMV ConnEx, Silver Screen, CrewCue, Cash Flow and BackcountryAI.",
   "links": {
     "github": "https://github.com/collinbrowse",
     "linkedin": "https://www.linkedin.com/in/collinbrowse",
@@ -42,7 +42,9 @@
     "company": "Academy Medtech Ventures",
     "dates": "Dec 2021 – May 2026",
     "title": "iOS Engineer I → II",
-    "summary": "Four and a half years building physical-therapy software: two cognitive therapy apps used in clinics, then an AI exercise-guidance app I built alone from an empty repository.",
+    "headline": "Before that, I built the app that took computer vision to patients.",
+    "pageHeadline": "From clinic iPads to computer vision in production.",
+    "summary": "Four and a half years building physical-therapy software: two cognitive therapy apps used in clinics, then ConnEx, an exercise-guidance app I built alone from an empty repository. The computer-vision engine was a Unity component I didn't write. I built the iOS app around it and everything it needed to run in production.",
     "products": [
       {
         "id": "connex",
